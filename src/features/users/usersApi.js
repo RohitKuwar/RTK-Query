@@ -7,6 +7,8 @@ export const usersApi = createApi({
     baseUrl: "https://dummyjson.com",
   }),
 
+  keepUnusedDataFor: 60,  // 60 seconds
+
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => "/users",
@@ -14,4 +16,4 @@ export const usersApi = createApi({
   }),
 });
 
-export const { useGetUsersQuery, useLazyGetUsersQuery } = usersApi;
+export const { useGetUsersQuery } = usersApi;

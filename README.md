@@ -107,3 +107,79 @@ const { data } = useGetUsersQuery();
 const \[getUsers, { data }\] = useLazyGetUsersQuery();
 
 → manual/on-demand fetching
+
+**RTK Query Caching**
+
+RTK Query automatically caches query results.
+
+Components requesting the same query can share the cached data instead of making duplicate API requests.
+
+Query arguments are part of the query's cache identity, so different arguments produce different cache entries.
+
+**isLoading** → initial loading when no data is available yet.
+
+**isFetching** → any request currently in progress, including refetching when cached data already exists.
+
+keepUnusedDataFor => "Unused" means there are currently **no components subscribed to that query**.Eg: keepUnusedDataFor: 60 means keep unused cached data for 60 seconds.**Cache**
+
+"I already fetched this data, so I can reuse it."
+
+### **Refetching**
+
+"The data might have changed, so let me ask the server again."
+
+RTK Query combines both. 
+
+                 RTK QUERY
+
+                     │
+
+          ┌──────────┴──────────┐
+
+          ↓                     ↓
+
+       CACHE                 REFETCH
+
+          │                     │
+
+   Avoid unnecessary       Get latest
+
+      requests              server data
+
+          │                     │
+
+          └──────────┬──────────┘
+
+                     ↓
+
+              Update cache
+
+                     ↓
+
+            Update subscribers
+
+**RTK Query Cache & Subscriptions**
+
+*   RTK Query stores query results in its cache.
+    
+*   Multiple components using the same query share the same cached data.
+    
+*   When a new component mounts and subscribes to an existing query, it can receive the cached result instead of making an unnecessary request.
+    
+*   RTK Query does **not automatically know** when the backend changes.
+    
+*   Server data can be refreshed through:
+    
+    *   manual refetch()
+        
+    *   polling using pollingInterval
+        
+    *   refetchOnMountOrArgChange
+        
+    *   refetchOnFocus
+        
+    *   refetchOnReconnect
+        
+    *   cache invalidation through **tags** (especially important with mutations)
+        
+*   When RTK Query updates the cached result, subscribed components using that query receive the updated data.

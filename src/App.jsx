@@ -1,26 +1,15 @@
-import { useGetUsersQuery, useLazyGetUsersQuery } from "./features/users/usersApi";
+import UserList from "./features/users/UserList";
+import UserCount from "./features/users/UserCount";
 
 function App() {
-  // const { data, isLoading, error } = useGetUsersQuery();
-  const [getUsers, { data, isLoading, error }] = useLazyGetUsersQuery();
 
   return (
     <div>
       <h1>Users</h1>
 
-      <button onClick={() => getUsers()}>Load Users</button>
+      <UserCount />
 
-      {isLoading && <h2>Loading...</h2>}
-
-      {error && <h2>Something went wrong</h2>}
-
-      <ul>
-        {data?.users?.map((user) => (
-          <li key={user.id}>
-            {user.firstName} {user.lastName}
-          </li>
-        ))}
-      </ul>
+      <UserList />
     </div>
   );
 }
