@@ -75,3 +75,35 @@ createAsyncThunk generates three lifecycle actions: pending, fulfilled, and reje
 Thunk allows us to dispatch functions and is generally used to handle asynchronous or conditional logic directly inside those functions. It commonly works with Promises and async/await. Redux Saga uses generator functions and yield effects to model and coordinate more complex asynchronous workflows. Thunk is generally simpler, while Saga can be useful when the application has sophisticated async workflows
 
 Thunk is function-based, not inherently Promise-based. A thunk can perform synchronous or asynchronous work. createAsyncThunk is designed for asynchronous operations and commonly uses Promises/async-await, which allows RTK to provide the pending, fulfilled, and rejected lifecycle. Redux Saga, in contrast, uses generator functions and yield-based effects for async workflow orchestration.
+
+An RTK Query API created with createApi() provides both a reducer and middleware. The reducer stores RTK Query's state/cache in Redux, while the middleware handles RTK Query behavior such as subscriptions and cache/refetch management. 
+
+**RTK Query**
+
+**RTK Query is included in Redux Toolkit and is designed primarily for server-state/API data management.**
+
+### **createApi**
+
+**createApi() creates an RTK Query API service containing endpoints for fetching and modifying server data.**
+
+### **Query vs Mutation**
+
+**Queries are primarily used to retrieve/read server data. Mutations are used for operations that modify server data, such as POST, PUT, PATCH, and DELETE.**
+
+### **RTK Query integration**
+
+**RTK Query integrates with Redux through an API reducer and API middleware. The reducer manages RTK Query state/cache, while the middleware manages RTK Query behavior such as subscriptions and refetching.**
+
+**RTK Query Query vs Lazy Query**
+
+useQuery() automatically fetches data when the component subscribes to the query.
+
+useLazyQuery() does not fetch automatically. It returns a trigger function that can be called manually, e.g. on button click.
+
+const { data } = useGetUsersQuery();
+
+→ automatic fetching
+
+const \[getUsers, { data }\] = useLazyGetUsersQuery();
+
+→ manual/on-demand fetching
