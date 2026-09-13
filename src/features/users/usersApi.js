@@ -7,13 +7,32 @@ export const usersApi = createApi({
     baseUrl: "https://dummyjson.com",
   }),
 
-  keepUnusedDataFor: 60,  // 60 seconds
+  tagTypes: ["Users"],
+  keepUnusedDataFor: 60, // 60 seconds
 
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => "/users",
+      providesTags: ["Users"],
+    }),
+
+    addUser: builder.mutation({
+      query: (newUser) => ({
+        url: "/users/add",
+        method: "POST",
+        body: newUser,
+      }),
+      invalidatesTags: ["Users"],
+    }),
+
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `/users/${userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users"],
     }),
   }),
 });
 
-export const { useGetUsersQuery } = usersApi;
+export const { useGetUsersQuery, useAddUserMutation, useDeleteUserMutation } = usersApi;

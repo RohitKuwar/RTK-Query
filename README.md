@@ -183,3 +183,65 @@ RTK Query combines both. 
     *   cache invalidation through **tags** (especially important with mutations)
         
 *   When RTK Query updates the cached result, subscribed components using that query receive the updated data.
+
+**RTK Query Mutation**
+
+builder.mutation() is used for operations that modify server data such as POST, PUT, PATCH and DELETE.
+
+A mutation hook returns a trigger function and mutation state:
+
+const \[addUser, result\] = useAddUserMutation();
+
+Trigger the mutation manually:
+
+addUser(user);
+
+Mutation state includes values such as:
+
+isLoading
+
+isSuccess
+
+isError
+
+error
+
+data
+
+Queries generally read/fetch data; mutations modify server data.
+
+And:
+
+**Cache invalidation:** A mutation can use invalidatesTags to mark related cached query data as stale. Queries use providesTags to identify the data they provide.
+
+**builder.mutation()**
+
+Used for server-side modifications:
+
+POST / PUT / PATCH / DELETE
+
+Example:
+
+deleteUser: builder.mutation({
+
+  query: (id) => ({
+
+    url: \`/users/${id}\`,
+
+    method: "DELETE",
+
+  }),
+
+  invalidatesTags: \["Users"\],
+
+})
+
+Mutation hooks return a trigger function:
+
+const \[deleteUser, result\] = useDeleteUserMutation();
+
+Trigger:
+
+deleteUser(id);
+
+invalidatesTags can cause related active queries to refetch and update their cached data.

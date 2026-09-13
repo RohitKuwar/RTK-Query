@@ -1,7 +1,8 @@
-import { useGetUsersQuery } from "./usersApi";
+import { useGetUsersQuery, useDeleteUserMutation } from "./usersApi";
 
 function UserList() {
   const { data, isLoading } = useGetUsersQuery();
+  const [ deleteUser, { isLoading: isDeleting } ] = useDeleteUserMutation();
 
   if (isLoading) {
     return <p>Loading users...</p>;
@@ -12,6 +13,8 @@ function UserList() {
       {data?.users?.map((user) => (
         <li key={user.id}>
           {user.firstName} {user.lastName}
+
+          <button onClick={() => deleteUser(user.id)} disabled={isDeleting}>Delete</button>
         </li>
       ))}
     </ul>
